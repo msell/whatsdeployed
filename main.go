@@ -85,7 +85,17 @@ func fetchDeployments(serverName string) []deployment {
 		log.Fatal(err)
 	}
 
-	fmt.Println(servers)
+	var serverMap = map[string]int{}
+
+	for _, s := range servers {
+		serverMap[s.Name] = s.ID
+	}
+
+	if serverMap[serverName] == 0 {
+		log.Fatal("Server " + serverName + " does not exist")
+	}
+
+	fmt.Println(serverMap)
 
 	s1 := deployment{
 		server:      serverName,
