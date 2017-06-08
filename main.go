@@ -1,7 +1,10 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"log"
+	"net/http"
 	"os"
 )
 
@@ -67,6 +70,23 @@ func prettyPrint(deployments []deployment) {
 }
 
 func fetchDeployments(serverName string) []deployment {
+	res, err := http.Get("http://whatsdeployed.herokuapp.com/servers.json")
+	if err != nil {
+		panic(err)
+	}
+
+	defer res.Body.Close()
+
+	var servers []Server
+
+	err = json.NewDecoder(res.Body).Decode(&servers)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(servers)
+
 	s1 := deployment{
 		server:      serverName,
 		application: "SPL",
@@ -80,6 +100,13 @@ func fetchDeployments(serverName string) []deployment {
 		version:     "1.3.0.9"}
 
 	return []deployment{s1, s2}
+}
+
+// Server : data represntation of server object
+type Server struct {
+	ID           int    `json:"id"`
+	Name         string `json:"name"`
+	SortPriority int    `json:"sort_priority"`
 }
 
 type deployment struct {
