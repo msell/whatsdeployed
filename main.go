@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"whatsdeployed/api"
 	"whatsdeployed/models"
@@ -19,10 +20,13 @@ func main() {
 		fmt.Printf("Searching for deployments on %s...\n", serverName)
 	}
 
-	if serverNameProvided {
-		deployments := fetchDeployments(serverName)
-		utils.PrettyPrint(deployments)
+	if !serverNameProvided {
+		log.Fatal("You must pass a server name as the first argument")
 	}
+
+	deployments := fetchDeployments(serverName)
+	utils.PrettyPrint(deployments)
+
 }
 
 func fetchDeployments(serverName string) []models.Deployment {
