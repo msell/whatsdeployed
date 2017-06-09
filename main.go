@@ -1,42 +1,42 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"os"
-	"whatsdeployed/api"
-	"whatsdeployed/models"
-	"whatsdeployed/utils"
+	"whatsdeployed/handlers"
 )
 
 func main() {
 
 	var serverNameProvided bool
 	var serverName string
+	var isDiff bool
 
-	if len(os.Args) >= 2 {
-		serverNameProvided = true
-		serverName = os.Args[1]
-		fmt.Printf("Searching for deployments on %s...\n", serverName)
+	flag.BoolVar(&isDiff, "diff", false, "Performs a diff against one or more servers")
+	flag.Parse()
+
+	if isDiff {
+		fmt.Println("Diff requested...")
+		if len(os.Args) < 4 {
+			log.Fatal("You must provide at least 2 server names after the diff flag")
+		}
+
+		fmt.Println("Diff functionality is not implemented yet. 🐳")
+		os.Exit(0)
+	} else {
+		// User is trying to get a list of deployments on a single server
+		if len(os.Args) >= 2 {
+			serverNameProvided = true
+			serverName = os.Args[1]
+			fmt.Printf("Searching for deployments on %s...\n", serverName)
+		}
+
+		if !serverNameProvided {
+			log.Fatal("You must pass a server name as the first argument")
+		}
+
+		handlers.WhatsDeployedOn(serverName)
 	}
-
-	if !serverNameProvided {
-		log.Fatal("You must pass a server name as the first argument")
-	}
-
-	deployments := fetchDeployments(serverName)
-	utils.PrettyPrint(deployments)
-
-}
-
-func fetchDeployments(serverName string) []models.Deployment {
-	serverID := api.FetchServerID(serverName)
-	apps := api.FetchApplications(serverID)
-
-	var deployments []models.Deployment
-	for _, app := range apps {
-		deployments = append(deployments, app.ToDeployment(serverName))
-	}
-
-	return deployments
 }
