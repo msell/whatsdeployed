@@ -70,20 +70,12 @@ func prettyPrint(deployments []models.Deployment) {
 
 func fetchDeployments(serverName string) []models.Deployment {
 	serverID := api.FetchServerID(serverName)
-	api.FetchApplications(serverID)
+	apps := api.FetchApplications(serverID)
 
-	// TODO: iterate over results and map array of deployments
-	s1 := models.Deployment{
-		Server:      serverName,
-		Application: "SPL",
-		Branch:      "master",
-		Version:     "3.0.0.2"}
+	var deployments []models.Deployment
+	for _, app := range apps {
+		deployments = append(deployments, app.ToDeployment(serverName))
+	}
 
-	s2 := models.Deployment{
-		Server:      serverName,
-		Application: "Lead API",
-		Branch:      "master",
-		Version:     "1.3.0.9"}
-
-	return []models.Deployment{s1, s2}
+	return deployments
 }
