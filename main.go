@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"whatsdeployed/models"
 )
 
 func main() {
@@ -43,15 +44,15 @@ func padRight(str string, length int) string {
 	}
 }
 
-func prettyPrint(deployments []deployment) {
+func prettyPrint(deployments []models.Deployment) {
 
 	var serverLen, applicationLen, branchLen, versionLen int
 
 	for _, d := range deployments {
-		compareAgainstLongest(&serverLen, d.server)
-		compareAgainstLongest(&applicationLen, d.application)
-		compareAgainstLongest(&branchLen, d.branch)
-		compareAgainstLongest(&versionLen, d.version)
+		compareAgainstLongest(&serverLen, d.Server)
+		compareAgainstLongest(&applicationLen, d.Application)
+		compareAgainstLongest(&branchLen, d.Branch)
+		compareAgainstLongest(&versionLen, d.Version)
 	}
 
 	// Print colunn headers
@@ -63,14 +64,14 @@ func prettyPrint(deployments []deployment) {
 
 	for _, d := range deployments {
 		fmt.Printf("%s %s %s %s\n",
-			padRight(d.server, serverLen),
-			padRight(d.application, applicationLen),
-			padRight(d.branch, branchLen),
-			padRight(d.version, versionLen))
+			padRight(d.Server, serverLen),
+			padRight(d.Application, applicationLen),
+			padRight(d.Branch, branchLen),
+			padRight(d.Version, versionLen))
 	}
 }
 
-func fetchDeployments(serverName string) []deployment {
+func fetchDeployments(serverName string) []models.Deployment {
 	res, err := http.Get("http://whatsdeployed.herokuapp.com/servers.json")
 	if err != nil {
 		panic(err)
@@ -78,7 +79,7 @@ func fetchDeployments(serverName string) []deployment {
 
 	defer res.Body.Close()
 
-	var servers []Server
+	var servers []models.Server
 
 	err = json.NewDecoder(res.Body).Decode(&servers)
 
@@ -99,31 +100,17 @@ func fetchDeployments(serverName string) []deployment {
 
 	fmt.Println(serverID)
 
-	s1 := deployment{
-		server:      serverName,
-		application: "SPL",
-		branch:      "master",
-		version:     "3.0.0.2"}
+	s1 := models.Deployment{
+		Server:      serverName,
+		Application: "SPL",
+		Branch:      "master",
+		Version:     "3.0.0.2"}
 
-	s2 := deployment{
-		server:      serverName,
-		application: "Lead API",
-		branch:      "master",
-		version:     "1.3.0.9"}
+	s2 := models.Deployment{
+		Server:      serverName,
+		Application: "Lead API",
+		Branch:      "master",
+		Version:     "1.3.0.9"}
 
-	return []deployment{s1, s2}
-}
-
-// Server : data represntation of server object
-type Server struct {
-	ID           int    `json:"id"`
-	Name         string `json:"name"`
-	SortPriority int    `json:"sort_priority"`
-}
-
-type deployment struct {
-	server      string
-	application string
-	branch      string
-	version     string
+	return []models.Deployment{s1, s2}
 }
