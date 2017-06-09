@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"whatsdeployed/api"
 	"whatsdeployed/models"
 	"whatsdeployed/utils"
@@ -22,4 +23,9 @@ func fetchDeployments(serverName string) []models.Deployment {
 	}
 
 	return deployments
+}
+
+// Diff : Compares deployments on 2 or more servers and writes results to the console
+func Diff(servers []string) {
+	fmt.Println(servers)
 }

@@ -23,6 +23,10 @@ func main() {
 			log.Fatal("You must provide at least 2 server names after the diff flag")
 		}
 
+		// TODO: make Diff a variadic function that takes N servers for comparison
+		servers := []string{os.Args[2], os.Args[3]}
+		handlers.Diff(servers)
+
 		fmt.Println("Diff functionality is not implemented yet. 🐳")
 		os.Exit(0)
 	} else {
