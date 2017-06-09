@@ -1,5 +1,9 @@
 package models
 
+import (
+	"strings"
+)
+
 // Server : data model for whatsdeployed server
 type Server struct {
 	ID           int    `json:"id"`
@@ -15,23 +19,23 @@ type Deployment struct {
 	Version     string
 }
 
-// ToDeployment : transform application into deployment model given a serverName
-func (a Application) ToDeployment(serverName string) Deployment {
-	//SecurityAPIv2-1.0.1.1-REL-1317
-	// TODO: Split a.Package into proper fields
-	d := Deployment{
-		Application: "todo",
-		Branch:      "master",
-		Version:     "0.0.0.1",
-		Server:      serverName,
-	}
-	return d
-}
-
 // Application : data model for whatsdeployed application
 type Application struct {
 	ID       int    `json:"id"`
 	ServerID int    `json:"server_id"`
 	Package  string `json:"package"`
 	Active   bool   `json:"active"`
+}
+
+// ToDeployment : transform application into deployment model given a serverName
+func (a Application) ToDeployment(serverName string) Deployment {
+	parts := strings.SplitN(a.Package, "-", 3)
+
+	d := Deployment{
+		Application: parts[0],
+		Version:     parts[1],
+		Branch:      parts[2],
+		Server:      serverName,
+	}
+	return d
 }

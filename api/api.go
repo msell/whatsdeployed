@@ -31,7 +31,6 @@ func FetchApplications(serverID int) []models.Application {
 		log.Fatal("Could not decode applications json ", err)
 	}
 
-	fmt.Println(apps)
 	return apps
 }
 
