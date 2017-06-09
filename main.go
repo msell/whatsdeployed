@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -85,17 +86,18 @@ func fetchDeployments(serverName string) []deployment {
 		log.Fatal(err)
 	}
 
-	var serverMap = map[string]int{}
-
+	var serverID int
 	for _, s := range servers {
-		serverMap[s.Name] = s.ID
+		if s.Name == strings.ToUpper(serverName) {
+			serverID = s.ID
+		}
 	}
 
-	if serverMap[serverName] == 0 {
+	if serverID == 0 {
 		log.Fatal("Server " + serverName + " does not exist")
 	}
 
-	fmt.Println(serverMap)
+	fmt.Println(serverID)
 
 	s1 := deployment{
 		server:      serverName,
