@@ -1,6 +1,6 @@
 package models
 
-// Server : data represntation of server object
+// Server : data model for whatsdeployed server
 type Server struct {
 	ID           int    `json:"id"`
 	Name         string `json:"name"`
@@ -13,4 +13,12 @@ type Deployment struct {
 	Application string
 	Branch      string
 	Version     string
+}
+
+// Application : data model for whatsdeployed application
+type Application struct {
+	ID       int    `json:"id"`
+	ServerID int    `json:"server_id"`
+	Package  string `json:"package"`
+	Active   bool   `json:"active"`
 }
