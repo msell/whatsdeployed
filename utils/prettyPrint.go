@@ -24,10 +24,25 @@ func padRight(str string, length int) string {
 
 // PrettyPrintDiff : given a list of deployments and server maps write the results to console
 func PrettyPrintDiff(apps []models.Application, serverMap map[int]string) {
+	var distinctApps []string
 	for _, app := range apps {
 		d := app.ToDeployment(serverMap[app.ID])
+		if isAppDistinct(distinctApps, d.Application) {
+			distinctApps = append(distinctApps, d.Application)
+		}
 		fmt.Println(d)
 	}
+
+	fmt.Println(distinctApps)
+}
+
+func isAppDistinct(apps []string, app string) bool {
+	for _, a := range apps {
+		if a == app {
+			return false
+		}
+	}
+	return true
 }
 
 // PrettyPrint : given a list of deployments format and write results to console
