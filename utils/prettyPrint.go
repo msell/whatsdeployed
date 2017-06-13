@@ -34,6 +34,11 @@ func PrettyPrintDiff(apps []models.Application, serverMap map[int]string) {
 	}
 
 	fmt.Println(distinctApps)
+
+	// var applicationLen, server1Len, server2Len int
+	// for _, app := range distinctApps {
+	// 	// will add a row for each distinct app
+	// }
 }
 
 func isAppDistinct(apps []string, app string) bool {
