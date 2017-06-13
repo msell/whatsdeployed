@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"fmt"
+	"strings"
 	"whatsdeployed/api"
 	"whatsdeployed/models"
 	"whatsdeployed/utils"
@@ -29,12 +30,15 @@ func fetchDeployments(serverName string) []models.Deployment {
 func Diff(servers []string) {
 
 	var apps []models.Application
+	var serverMap = make(map[int]string)
 
 	for _, s := range servers {
 		serverID := api.FetchServerID(s)
 		apps = append(apps, api.FetchApplications(serverID)...)
+		serverMap[serverID] = strings.ToUpper(s)
 	}
 
 	fmt.Println(apps)
+	fmt.Println(serverMap)
 
 }
