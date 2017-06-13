@@ -28,11 +28,13 @@ func fetchDeployments(serverName string) []models.Deployment {
 // Diff : Compares deployments on 2 or more servers and writes results to the console
 func Diff(servers []string) {
 
-	var serverIDs []int
+	var apps []models.Application
+
 	for _, s := range servers {
-		serverIDs = append(serverIDs, api.FetchServerID(s))
+		serverID := api.FetchServerID(s)
+		apps = append(apps, api.FetchApplications(serverID)...)
 	}
 
-	fmt.Println(serverIDs)
+	fmt.Println(apps)
 
 }
