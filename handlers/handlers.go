@@ -27,5 +27,12 @@ func fetchDeployments(serverName string) []models.Deployment {
 
 // Diff : Compares deployments on 2 or more servers and writes results to the console
 func Diff(servers []string) {
-	fmt.Println(servers)
+
+	var serverIDs []int
+	for _, s := range servers {
+		serverIDs = append(serverIDs, api.FetchServerID(s))
+	}
+
+	fmt.Println(serverIDs)
+
 }
