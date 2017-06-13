@@ -36,6 +36,24 @@ func FetchApplications(serverID int) []models.Application {
 
 // FetchServerID : Make api call to get servers and find serverID based on server name
 func FetchServerID(serverName string) int {
+	servers := FetchServers()
+	var serverID int
+
+	for _, s := range servers {
+		if s.Name == strings.ToUpper(serverName) {
+			serverID = s.ID
+		}
+	}
+
+	if serverID == 0 {
+		log.Fatal("Server " + serverName + " does not exist")
+	}
+
+	return serverID
+}
+
+// FetchServers : Get all servers
+func FetchServers() []models.Server {
 	res, err := http.Get("http://whatsdeployed.herokuapp.com/servers.json")
 	if err != nil {
 		log.Fatal(err)
@@ -51,16 +69,5 @@ func FetchServerID(serverName string) int {
 		log.Fatal(err)
 	}
 
-	var serverID int
-	for _, s := range servers {
-		if s.Name == strings.ToUpper(serverName) {
-			serverID = s.ID
-		}
-	}
-
-	if serverID == 0 {
-		log.Fatal("Server " + serverName + " does not exist")
-	}
-
-	return serverID
+	return servers
 }

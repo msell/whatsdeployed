@@ -1,0 +1,53 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "qZ2RfeTlXmQCkYqK6k5xTEve2Wg=",
+			"path": "github.com/AlecAivazis/survey",
+			"revision": "00a7beaac7eae538637cae6455d99d1ce8b66497",
+			"revisionTime": "2017-05-29T09:06:15Z"
+		},
+		{
+			"checksumSHA1": "1WFOjqmi2vnHTquS8xnKELzjatk=",
+			"path": "github.com/AlecAivazis/survey/core",
+			"revision": "00a7beaac7eae538637cae6455d99d1ce8b66497",
+			"revisionTime": "2017-05-29T09:06:15Z"
+		},
+		{
+			"checksumSHA1": "q02Q9AWwbwfpG12aDK1qT8QCV8w=",
+			"path": "github.com/AlecAivazis/survey/terminal",
+			"revision": "00a7beaac7eae538637cae6455d99d1ce8b66497",
+			"revisionTime": "2017-05-29T09:06:15Z"
+		},
+		{
+			"checksumSHA1": "uAVg4Tj5Fxi62z7/ScDEkHr6Ue8=",
+			"path": "github.com/mattn/go-colorable",
+			"revision": "ded68f7a9561c023e790de24279db7ebf473ea80",
+			"revisionTime": "2017-03-27T08:33:44Z"
+		},
+		{
+			"checksumSHA1": "U6lX43KDDlNOn+Z0Yyww+ZzHfFo=",
+			"path": "github.com/mattn/go-isatty",
+			"revision": "fc9e8d8ef48496124e79ae0df75490096eccf6fe",
+			"revisionTime": "2017-03-22T23:44:13Z"
+		},
+		{
+			"checksumSHA1": "CIK3BBNX3nuUQCmNqTQydNfMNKI=",
+			"path": "github.com/mgutz/ansi",
+			"revision": "9520e82c474b0a04dd04f8a40959027271bab992",
+			"revisionTime": "2017-02-06T15:57:36Z"
+		},
+		{
+			"checksumSHA1": "rIYurTMbnyUj/eMHsaxTBnTvSnY=",
+			"path": "golang.org/x/sys/unix",
+			"revision": "0b25a408a50076fbbcae6b7ac0ea5fbb0b085e79",
+			"revisionTime": "2017-06-08T11:43:49Z"
+		},
+		{
+			"path": "https://github.com/AlecAivazis/survey",
+			"revision": ""
+		}
+	],
+	"rootPath": "whatsdeployed"
+}

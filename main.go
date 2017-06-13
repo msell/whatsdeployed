@@ -5,7 +5,12 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 	"whatsdeployed/handlers"
+
+	"whatsdeployed/api"
+
+	"github.com/AlecAivazis/survey"
 )
 
 func main() {
@@ -29,18 +34,36 @@ func main() {
 
 		fmt.Println("Diff functionality is not implemented yet. 🐳")
 		os.Exit(0)
-	} else {
+	} else if len(os.Args) >= 2 {
 		// User is trying to get a list of deployments on a single server
-		if len(os.Args) >= 2 {
-			serverNameProvided = true
-			serverName = os.Args[1]
-			fmt.Printf("Searching for deployments on %s...\n", serverName)
-		}
+
+		serverNameProvided = true
+		serverName = os.Args[1]
+		fmt.Printf("Searching for deployments on %s...\n", serverName)
 
 		if !serverNameProvided {
 			log.Fatal("You must pass a server name as the first argument")
 		}
 
 		handlers.WhatsDeployedOn(serverName)
+
+	} else {
+		// ask the user what they want to do
+		var servers []string
+		for _, s := range api.FetchServers() {
+			if (strings.Contains(s.Name, "CORPDEV") ||
+				strings.Contains(s.Name, "CORPQA")) &&
+				s.Name != "{CORPQA1APP01}" {
+				servers = append(servers, s.Name)
+			}
+		}
+		prompt := &survey.Select{
+			Message: "On which server?",
+			Options: servers,
+		}
+
+		survey.AskOne(prompt, &serverName, nil)
+		handlers.WhatsDeployedOn(serverName)
 	}
+
 }
