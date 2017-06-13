@@ -23,8 +23,11 @@ func padRight(str string, length int) string {
 }
 
 // PrettyPrintDiff : given a list of deployments and server maps write the results to console
-func PrettyPrintDiff(deployments []models.Application, serverMap map[int]string) {
-
+func PrettyPrintDiff(apps []models.Application, serverMap map[int]string) {
+	for _, app := range apps {
+		d := app.ToDeployment(serverMap[app.ID])
+		fmt.Println(d)
+	}
 }
 
 // PrettyPrint : given a list of deployments format and write results to console
