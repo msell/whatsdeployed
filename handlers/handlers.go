@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"strings"
 	"whatsdeployed/api"
 	"whatsdeployed/models"
@@ -38,7 +37,5 @@ func Diff(servers []string) {
 		serverMap[serverID] = strings.ToUpper(s)
 	}
 
-	fmt.Println(apps)
-	fmt.Println(serverMap)
-
+	utils.PrettyPrintDiff(apps, serverMap)
 }

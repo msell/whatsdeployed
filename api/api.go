@@ -31,7 +31,13 @@ func FetchApplications(serverID int) []models.Application {
 		log.Fatal("Could not decode applications json ", err)
 	}
 
-	return apps
+	var activeApps []models.Application
+	for _, app := range apps {
+		if app.Active {
+			activeApps = append(activeApps, app)
+		}
+	}
+	return activeApps
 }
 
 // FetchServerID : Make api call to get servers and find serverID based on server name
