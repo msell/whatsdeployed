@@ -34,6 +34,9 @@ func Diff(servers []string) {
 	for _, s := range servers {
 		serverID := api.FetchServerID(s)
 		apps = append(apps, api.FetchApplications(serverID)...)
+		for _, a := range apps {
+			a.Server = strings.ToUpper(s)
+		}
 		serverMap[serverID] = strings.ToUpper(s)
 	}
 

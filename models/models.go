@@ -25,6 +25,7 @@ type Application struct {
 	ServerID int    `json:"server_id"`
 	Package  string `json:"package"`
 	Active   bool   `json:"active"`
+	Server   string
 }
 
 // ToDeployment : transform application into deployment model given a serverName

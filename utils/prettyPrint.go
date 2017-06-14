@@ -2,11 +2,12 @@ package utils
 
 import (
 	"fmt"
+	"strings"
 	"whatsdeployed/models"
 )
 
 /* Used to figure out the length of the longest string */
-func compareAgainstLongest(longest *int, current string) {
+func determineFieldWidth(longest *int, current string) {
 	currentLength := len(current)
 	if currentLength > *longest {
 		*longest = currentLength
@@ -30,15 +31,52 @@ func PrettyPrintDiff(apps []models.Application, serverMap map[int]string) {
 		if isAppDistinct(distinctApps, d.Application) {
 			distinctApps = append(distinctApps, d.Application)
 		}
-		fmt.Println(d)
+		// fmt.Println(d)
 	}
 
 	fmt.Println(distinctApps)
 
-	// var applicationLen, server1Len, server2Len int
+	// loop distinct apps, each iteration of distinct apps will be displayed
+	// as a row in a table.  The first column will be the application name
+	// subsequent columns will display the package deployed on a server
+
+	var applicationLen int
+
+	numberOfServers := len(serverMap)
+
+	fmt.Println(numberOfServers)
+	fmt.Println(serverMap)
+	for _, app := range distinctApps {
+
+		determineFieldWidth(&applicationLen, app)
+		var fieldWidths []int
+		i := 0
+		for k := range serverMap {
+			fieldWidths = make([]int, numberOfServers)
+			pkg := getPackageName(apps, app, k)
+			determineFieldWidth(&fieldWidths[i], pkg)
+			i++
+		}
+
+		fmt.Println(fieldWidths)
+
+	}
+
 	// for _, app := range distinctApps {
-	// 	// will add a row for each distinct app
+	// 	determineFieldWidth(&applicationLen, app)
 	// }
+
+}
+
+func getPackageName(apps []models.Application, appName string, serverID int) string {
+	for _, a := range apps {
+		if a.ServerID == serverID &&
+			strings.HasPrefix(a.Package, appName) {
+			return a.Package
+		}
+	}
+
+	return ""
 }
 
 func isAppDistinct(apps []string, app string) bool {
@@ -56,10 +94,10 @@ func PrettyPrint(deployments []models.Deployment) {
 	var serverLen, applicationLen, branchLen, versionLen int
 
 	for _, d := range deployments {
-		compareAgainstLongest(&serverLen, d.Server)
-		compareAgainstLongest(&applicationLen, d.Application)
-		compareAgainstLongest(&branchLen, d.Branch)
-		compareAgainstLongest(&versionLen, d.Version)
+		determineFieldWidth(&serverLen, d.Server)
+		determineFieldWidth(&applicationLen, d.Application)
+		determineFieldWidth(&branchLen, d.Branch)
+		determineFieldWidth(&versionLen, d.Version)
 	}
 
 	// Print colunn headers
